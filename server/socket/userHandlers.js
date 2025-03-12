@@ -1,10 +1,9 @@
-// Handles user-related socket events
-
 const User = require('../models/User');
 
 // When a user joins, update connection status and broadcast the new user list
 exports.userJoin = async (io, socket, data) => {
   const { username, room } = data;
+
   try {
     let user = await User.findOne({ username, room });
     if (!user) {
@@ -19,12 +18,27 @@ exports.userJoin = async (io, socket, data) => {
   }
 };
 
-// Handle user disconnect events
+// Handling user disconnect events
 exports.userDisconnect = async (io, socket) => {
   try {
-    // In a real app, you would update the specific user status based on socket info.
-    io.emit('notification', `A user has disconnected.`);
+    const user = users[socket.id];
+
+    if (user) {
+      const { room, username } = user;
+      delete users[socket.id];
+      const users = await User.find
+      ({ room, connected: true });
+      io.to(room).emit('usersList', users);
+      io.to(room).emit('notification', `${username} has left the room.`);
+
+      await User.updateOne({ username, room }, { connected: false });
+      console.log(`${username} left room ${room}`);
+    }
+    
   } catch (error) {
-    console.error('Error handling disconnect:', error);
+    console.error('Error in user disconnect:', error);
   }
-};
+  socket.disconnect();
+  console.log('User disconnected');
+}
+

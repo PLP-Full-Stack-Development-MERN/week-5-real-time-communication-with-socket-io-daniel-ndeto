@@ -30,7 +30,7 @@ app.use(errorHandler);
 // Create HTTP server instance
 const server = http.createServer(app);
 
-// Initialize Socket.io and attach to HTTP server
+// Initializing Socket.io and attach to HTTP server
 const io = socketio(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
 // Initialize all Socket.io events and handlers
@@ -42,6 +42,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => logger.info('MongoDB connected'))
   .catch(err => logger.error('MongoDB connection error:', err));
 
-// Start the server
+// Starting the server
 const PORT = process.env.PORT || config.get('port') || 5000;
 server.listen(PORT, () => logger.info(`Server running on port ${PORT}`));

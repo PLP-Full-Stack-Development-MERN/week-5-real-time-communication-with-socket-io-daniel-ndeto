@@ -1,4 +1,3 @@
-// server/socket/socketManager.js
 const users = {};
 
 const initSocket = (io) => {
@@ -9,7 +8,7 @@ const initSocket = (io) => {
       socket.join(room);
       users[socket.id] = { username, room };
 
-      // Emit updated user list
+      // Emitting updated user list
       updateOnlineUsers(io, room);
 
       // Notification
@@ -18,6 +17,7 @@ const initSocket = (io) => {
 
     socket.on('disconnect', () => {
       const user = users[socket.id];
+      
       if (user) {
         const { room, username } = user;
         delete users[socket.id];

@@ -1,7 +1,7 @@
-// Dummy authentication middleware (for demonstration)
+// i will add authentication logic here later 
 
 module.exports = (req, res, next) => {
-    // Implement authentication logic if needed
+    //authentication logic 
     next();
   };
   

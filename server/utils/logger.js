@@ -1,7 +1,10 @@
-// Simple logger utility for server messages
+// server/utils/logger.js
+const info = (message) => {
+  console.log(`[${new Date().toISOString()}] [INFO] ${message}`);
+};
 
-module.exports = {
-    info: (msg) => console.log(`[INFO] ${msg}`),
-    error: (msg) => console.error(`[ERROR] ${msg}`)
-  };
-  
+const error = (message) => {
+  console.error(`[${new Date().toISOString()}] [ERROR] ${message}`);
+};
+
+module.exports = { info, error };

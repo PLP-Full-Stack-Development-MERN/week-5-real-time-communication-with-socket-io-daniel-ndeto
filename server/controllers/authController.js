@@ -1,24 +1,24 @@
-// server/controllers/authController.js
-
 const User = require('../models/User');
 
-// REGISTER: Accepts { username, email, password } to create a new user.
+// Rgistering new users
 exports.registerUser = async (req, res, next) => {
+
   try {
     const { username, email, password } = req.body;
 
-    // Validate that all fields are provided.
+    // Validating that all fields are provided.
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    // Check if a user already exists with the given username or email.
+    // Checking if a user already exists with the given username or email.
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
+
       return res.status(400).json({ message: 'Username or email already taken.' });
     }
 
-    // Create a new user. (In production, remember to hash the password.)
+    // Creating a new user
     const newUser = new User({
       username,
       email,
@@ -28,6 +28,7 @@ exports.registerUser = async (req, res, next) => {
     await newUser.save();
 
     return res.status(201).json({
+
       message: 'User registered successfully.',
       user: {
         _id: newUser._id,
@@ -42,26 +43,29 @@ exports.registerUser = async (req, res, next) => {
 
 // LOGIN: Accepts { username, password } and logs the user in.
 exports.loginUser = async (req, res, next) => {
+
   try {
     const { username, password } = req.body;
     
-    // Validate that both username and password are provided.
+    // Validating creditials
     if (!username || !password) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
     
-    // Look up the user by username.
+    // Looking user by username.
     const user = await User.findOne({ username });
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
     
-    // Compare passwords (for production, use bcrypt.compare).
+    // Comparing passwords
     if (user.password !== password) {
+      
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
     
-    // Mark the user as connected.
+    // Marking user as connected.
     user.connected = true;
     await user.save();
     

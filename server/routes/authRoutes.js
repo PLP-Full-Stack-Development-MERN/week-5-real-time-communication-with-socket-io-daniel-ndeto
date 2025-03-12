@@ -1,10 +1,8 @@
-// server/routes/authRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// Register a new user
+// Registering a new user
 router.post('/register', authController.registerUser);
 
 // Login an existing user
