@@ -23,7 +23,7 @@ const Home = () => {
 
       // The server should respond with a user object and a token
       const { user } = res.data;
-      setUser(user); // Store the user in context
+      setUser(user); 
       setMessage('Login successful!');
       
       // Redirecting to room

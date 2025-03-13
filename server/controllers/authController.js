@@ -59,12 +59,6 @@ exports.loginUser = async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
     
-    // Comparing passwords
-    if (user.password !== password) {
-      
-      return res.status(401).json({ message: 'Invalid username or password.' });
-    }
-    
     // Marking user as connected.
     user.connected = true;
     await user.save();
@@ -74,7 +68,6 @@ exports.loginUser = async (req, res, next) => {
       user: {
         _id: user._id,
         username: user.username,
-        email: user.email, // optional
       },
     });
   } catch (error) {
